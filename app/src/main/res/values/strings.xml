@@ -15,4 +15,10 @@
     <string name="sound_booster">Sound Booster</string>
     <string name="sound_booster_on">Sound Booster On</string>
     <string name="sound_booster_off">Sound Booster Off</string>
+    <string name="shake">Vibrator</string>
+    <string name="shake_on">Vibrator On</string>
+    <string name="shake_off">Vibrator Off</string>
+    <string name="mute">Mute</string>
+    <string name="mute_on">Mute On</string>
+    <string name="mute_off">Mute Off</string>
 </resources>

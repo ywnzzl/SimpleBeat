@@ -11,6 +11,8 @@ public class Profile {
     private final static String KeyAudio = "Audio";
     private final static String KeyKeepScreen = "KeepScreen";
     private final static String KeySoundBooster = "SoundBooster";
+    private final static String KeySoundOut = "SoundOut";
+    private final static String KeyIsShake = "isShake";
 
     private final SharedPreferences preferences;
 
@@ -26,6 +28,14 @@ public class Profile {
     }
     public boolean getKeepScreen() { return preferences.getBoolean(KeyKeepScreen, false); }
     public boolean getSoundBooster() { return preferences.getBoolean(KeySoundBooster, false); }
+
+    public boolean getSoundOut() {
+        return preferences.getBoolean(KeySoundOut, false);
+    }
+    public boolean getIsShake() {
+        return preferences.getBoolean(KeyIsShake, false);
+    }
+
 
     private void setValue(String key, String value) {
         SharedPreferences.Editor editor = preferences.edit();
@@ -59,5 +69,13 @@ public class Profile {
 
     public void setSoundBooster(boolean value) {
         setValue(KeySoundBooster, value);
+    }
+
+
+    public void setSoundOut(boolean value) {
+        setValue(KeySoundOut, value);
+    }
+    public void setIsShake(boolean value) {
+        setValue(KeyIsShake, value);
     }
 }

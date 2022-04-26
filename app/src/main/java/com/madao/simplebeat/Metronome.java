@@ -9,11 +9,30 @@ import android.util.Log;
 import java.util.Arrays;
 
 public class Metronome extends Thread {
+
+	private boolean sound = true;
+	private boolean shark = true;
+
+	public void updateShark(boolean shark){
+		this.shark=shark;
+		if(this.shark)
+			this.notes=1;
+		else
+			this.notes=4;
+		this.changed=true;
+	}
+	public void updateSound(boolean sound){
+		this.sound= sound;
+		this.changed=true;
+	}
+
 	private AudioTrack audioTrack;
 	private boolean playing = false;
 	private boolean quit = false;
 
 	private final Handler mHandler;
+
+	private final Handler mHandlerShake;
 
 	private int bpm = 120;
 	private int notes = 4;
@@ -29,9 +48,10 @@ public class Metronome extends Thread {
 	private byte[] upbeat;
 	private byte[] downbeat;
 	
-	public Metronome(Handler handler) {
+	public Metronome(Handler handler,Handler mHandlerShake) {
 		setDaemon(true);
 		this.mHandler = handler;
+		this.mHandlerShake = mHandlerShake;
 		tickCount = 0;
 		createPlayer();
 	}
@@ -96,13 +116,18 @@ public class Metronome extends Thread {
 			beat1 = soundBooster(downbeat);
 			beat2 = soundBooster(upbeat);
 		}
-
-		System.arraycopy(beat1, 0, wave, 0, Math.min(beat1.length, unit));
-
-		for (int i = 1; i < notes; i++) {
-			System.arraycopy(beat2, 0, wave, i * unit, Math.min(beat2.length, unit));
+		if(sound){
+			if(notes==1){
+				System.arraycopy(beat2, 0, wave, 0, Math.min(beat2.length, unit));
+			}else {
+				System.arraycopy(beat1, 0, wave, 0, Math.min(beat1.length, unit));
+				for (int i = 1; i < notes; i++) {
+					System.arraycopy(beat2, 0, wave, i * unit, Math.min(beat2.length, unit));
+				}
+			}
+		}else{
+			Arrays.fill(wave, (byte)0);
 		}
-
 		changed = false;
 		Log.d(getName(), String.format("section total %d unit %d wave length %d time %f", total, unit, wave.length, wave.length * 1f / Constant.SampleRate ));
 	}
@@ -112,6 +137,9 @@ public class Metronome extends Thread {
 		tickCount += notes;
 		long endTime = System.currentTimeMillis();
 		mHandler.sendMessage(Messages.TickTime((int)(endTime - startTime), tickCount));
+		if(shark) {
+			mHandlerShake.sendEmptyMessage(1);
+		}
 //		int offset = 0;
 //		while (offset < wave.length) {
 //			int end = Math.min(wave.length - offset, Constant.SampleRate);

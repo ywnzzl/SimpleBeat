@@ -13,4 +13,10 @@
     <string name="sound_booster">音量增强</string>
     <string name="sound_booster_on">打开音量增强</string>
     <string name="sound_booster_off">关闭音量增强</string>
+    <string name="shake">震动</string>
+    <string name="shake_off">关闭震动</string>
+    <string name="shake_on">打开震动</string>
+    <string name="mute">静音</string>
+    <string name="mute_on">打开静音</string>
+    <string name="mute_off">关闭静音</string>
 </resources>

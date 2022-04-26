@@ -26,7 +26,7 @@ import java.io.IOException;
 public class MetronomeActivity extends AppCompatActivity {
 
     enum MenusType {
-        MenuStatusBar, MenuKeepScreen, MenuSoundBooster, MenuAbout
+        MenuStatusBar, MenuKeepScreen, MenuSoundBooster, MenuAbout,MenuSoundOut,MenuShake
     }
 
     private Metronome metronome;
@@ -35,12 +35,16 @@ public class MetronomeActivity extends AppCompatActivity {
     private boolean isPlaying = false;
     private boolean showStatusBar = false;
     private boolean soundBooster = false;
+
+    private boolean soundOut = true;
+    private boolean isShake = true;
     private boolean isKeepScreen;
     private int audioInitPosition;
     private TextView statusBar;
     private TextView timerBar;
     private long startTime;
     private Handler mHandler;
+    private Handler mHandlerShake;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +54,8 @@ public class MetronomeActivity extends AppCompatActivity {
 
         profile = new Profile(this);
         isKeepScreen = profile.getKeepScreen();
+        isShake = profile.getIsShake();
+        soundOut = profile.getSoundOut();
         soundBooster = profile.getSoundBooster();
         audioManager = new AudioManager(this);
 
@@ -59,6 +65,14 @@ public class MetronomeActivity extends AppCompatActivity {
 //                    Log.d(tag, String.format("delta %d count %d", msg.arg1, msg.arg2));
             } else if (msg.what == Messages.MsgUpdateTimer) {
                 updateTimerBar();
+            }
+            return false;
+        });
+
+        mHandlerShake = new Handler(Looper.getMainLooper(), msg -> {
+            if (msg.what == 1) {
+                if(isShake)
+                  ShakeUtils.vibrate(this,200);
             }
             return false;
         });
@@ -74,9 +88,11 @@ public class MetronomeActivity extends AppCompatActivity {
             metronome.close();
         }
 
-        metronome = new Metronome(mHandler);
+        metronome = new Metronome(mHandler,mHandlerShake);
         metronome.setBpm(profile.getBPM());
         metronome.setBooster(soundBooster);
+        metronome.updateSound(soundOut);
+        metronome.updateShark(isShake);
         metronome.start();
         updateAudio(profile.getAudioKey());
         ImageButton view = findViewById(R.id.startButton);
@@ -160,6 +176,43 @@ public class MetronomeActivity extends AppCompatActivity {
         soundBooster = !soundBooster;
         metronome.setBooster(soundBooster);
         profile.setSoundBooster(soundBooster);
+
+        if (isKeepScreen) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        } else {
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        }
+
+//        if (soundBooster) {
+//            menu.add(1,  MenusType.MenuSoundBooster.ordinal(), 1, R.string.sound_booster_off);
+//        } else {
+//            menu.add(1, MenusType.MenuSoundBooster.ordinal(), 1, R.string.sound_booster_on);
+//        }
+    }
+
+    public void toggleSoundOut() {
+        soundOut = !soundOut;
+        metronome.updateSound(soundOut);
+        profile.setSoundOut(soundOut);
+
+//        if (soundOut) {
+//            menu.add(1,  MenusType.MenuSoundOut.ordinal(), 1, R.string.mute_on);
+//        } else {
+//            menu.add(1, MenusType.MenuSoundOut.ordinal(), 1, R.string.mute_off);
+//        }
+
+    }
+
+    public void toggleShake() {
+        isShake = !isShake;
+        metronome.updateShark(isShake);
+        profile.setIsShake(isShake);
+
+//        if (isShake) {
+//            menu.add(1,  MenusType.MenuShake.ordinal(), 1, R.string.shake_off);
+//        } else {
+//            menu.add(1, MenusType.MenuShake.ordinal(), 1, R.string.shake_on);
+//        }
     }
 
     private void play() {
@@ -214,6 +267,12 @@ public class MetronomeActivity extends AppCompatActivity {
                 case MenuSoundBooster:
                     toggleSoundBooster();
                     break;
+                case MenuSoundOut:
+                    toggleSoundOut();
+                    break;
+                case MenuShake:
+                    toggleShake();
+                    break;
                 case MenuAbout:
                     showAbout();
                     break;
@@ -241,6 +300,17 @@ public class MetronomeActivity extends AppCompatActivity {
             menu.add(1,  MenusType.MenuSoundBooster.ordinal(), 1, R.string.sound_booster_off);
         } else {
             menu.add(1, MenusType.MenuSoundBooster.ordinal(), 1, R.string.sound_booster_on);
+        }
+
+        if (isShake) {
+            menu.add(1,  MenusType.MenuShake.ordinal(), 1, R.string.shake_off);
+        } else {
+            menu.add(1, MenusType.MenuShake.ordinal(), 1, R.string.shake_on);
+        }
+        if (soundOut) {
+            menu.add(1,  MenusType.MenuSoundOut.ordinal(), 1, R.string.mute_on);
+        } else {
+            menu.add(1, MenusType.MenuSoundOut.ordinal(), 1, R.string.mute_off);
         }
 
         menu.add(1, MenusType.MenuAbout.ordinal(), 1, R.string.about);
