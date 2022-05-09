@@ -18,7 +18,7 @@ public class Metronome extends Thread {
 		if(this.shark)
 			this.notes=1;
 		else
-			this.notes=4;
+			this.notes=1;
 		this.changed=true;
 	}
 	public void updateSound(boolean sound){
@@ -35,7 +35,8 @@ public class Metronome extends Thread {
 	private final Handler mHandlerShake;
 
 	private int bpm = 120;
-	private int notes = 4;
+//	private int notes = 4;
+	private int notes = 1;
 
 	private boolean changed = false;
 	private boolean booster = false;

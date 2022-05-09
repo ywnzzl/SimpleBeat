@@ -308,9 +308,9 @@ public class MetronomeActivity extends AppCompatActivity {
             menu.add(1, MenusType.MenuShake.ordinal(), 1, R.string.shake_on);
         }
         if (soundOut) {
-            menu.add(1,  MenusType.MenuSoundOut.ordinal(), 1, R.string.mute_on);
+            menu.add(1,  MenusType.MenuSoundOut.ordinal(), 1, R.string.mute_off);
         } else {
-            menu.add(1, MenusType.MenuSoundOut.ordinal(), 1, R.string.mute_off);
+            menu.add(1, MenusType.MenuSoundOut.ordinal(), 1, R.string.mute_on);
         }
 
         menu.add(1, MenusType.MenuAbout.ordinal(), 1, R.string.about);
