@@ -191,7 +191,6 @@ public class Metronome extends Thread {
 	public void setBpm(int bpm) {
 		this.changed = true;
 		this.bpm = bpm;
-
 	}
 
 	public void setNotes(int notes) {
