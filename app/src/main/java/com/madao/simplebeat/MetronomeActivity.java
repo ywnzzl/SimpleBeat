@@ -21,6 +21,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.umeng.commonsdk.UMConfigure;
+
 import java.io.IOException;
 
 public class MetronomeActivity extends AppCompatActivity {
@@ -51,6 +53,9 @@ public class MetronomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_metronome);
         setTitle("");
+
+        UMConfigure.init(this, "59892f08310c9307b60023d0", "Umeng", UMConfigure.DEVICE_TYPE_PHONE, "");
+
 
         profile = new Profile(this);
         isKeepScreen = profile.getKeepScreen();
@@ -97,6 +102,10 @@ public class MetronomeActivity extends AppCompatActivity {
         updateAudio(profile.getAudioKey());
         ImageButton view = findViewById(R.id.startButton);
         ((AnimatedVectorDrawable) (view).getDrawable()).reset();
+
+
+
+
     }
 
     private void initTimerBar() {
@@ -308,9 +317,9 @@ public class MetronomeActivity extends AppCompatActivity {
             menu.add(1, MenusType.MenuShake.ordinal(), 1, R.string.shake_on);
         }
         if (soundOut) {
-            menu.add(1,  MenusType.MenuSoundOut.ordinal(), 1, R.string.mute_off);
-        } else {
             menu.add(1, MenusType.MenuSoundOut.ordinal(), 1, R.string.mute_on);
+        } else {
+            menu.add(1,  MenusType.MenuSoundOut.ordinal(), 1, R.string.mute_off);
         }
 
         menu.add(1, MenusType.MenuAbout.ordinal(), 1, R.string.about);
