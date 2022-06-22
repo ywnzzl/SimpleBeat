@@ -49,7 +49,7 @@
             tools:srcCompat="@android:drawable/ic_dialog_dialer" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <com.madao.simplebeat.BpmPicker
+    <com.jerry.simplebeat.BpmPicker
         android:id="@+id/BpmPicker"
         android:layout_width="match_parent"
         android:layout_height="132dp"
@@ -57,9 +57,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.529"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/StatusBar"></com.madao.simplebeat.BpmPicker>
+        app:layout_constraintTop_toBottomOf="@+id/StatusBar"></com.jerry.simplebeat.BpmPicker>
 
-    <com.madao.simplebeat.AudioSelector
+    <com.jerry.simplebeat.AudioSelector
         android:id="@+id/AudioSelector"
         android:layout_width="match_parent"
         android:layout_height="132dp"
@@ -69,7 +69,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/StatusBar">
 
-    </com.madao.simplebeat.AudioSelector>
+    </com.jerry.simplebeat.AudioSelector>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/TImerAndPlay"

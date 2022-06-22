@@ -1,18 +1,17 @@
 plugins {
     id 'com.android.application'
 }
-
 //def cmd = 'git rev-list HEAD --count'
 //def gitVersion = cmd.execute().text.trim().toInteger()
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
     defaultConfig {
-        applicationId "com.madao.simplebeat"
+        applicationId "com.jerry.simplebeat"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 220601
-        versionName "1.220601"
+        versionCode 220622
+        versionName "1.220622"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
     }
@@ -33,6 +32,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'com.google.android.material:material:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'junit:junit:4.12'
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
